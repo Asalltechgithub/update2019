@@ -14,6 +14,10 @@ namespace SalesWebMVc.Data
         {
         }
 
-        public DbSet<SalesWebMVc.Models.Department> Department { get; set; }
+        public DbSet<Department> Department { get; set; }
+        public DbSet<SalesRecord> salesRecords { get; set; }
+
+        public DbSet<Seller> Sellers { get; set; }
+
     }
 }
