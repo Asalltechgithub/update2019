@@ -16,6 +16,7 @@ namespace SalesWebMVc.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime BirthDate { get; set; }
         public Department Department { get; set; }
+        public int DepartamentId { get; set; }
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
 
 
