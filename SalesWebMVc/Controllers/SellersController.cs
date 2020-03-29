@@ -14,7 +14,7 @@ namespace SalesWebMVc.Controllers
         private readonly SellerService _sellerService;
         private readonly DepartmentService _departmentService;
 
-        public SellersController(SellerService sellerService,DepartmentService departmentService)
+        public SellersController(SellerService sellerService, DepartmentService departmentService)
         {
             _sellerService = sellerService; _departmentService = departmentService;
 
@@ -24,7 +24,7 @@ namespace SalesWebMVc.Controllers
             var list = _sellerService.FindAll();
             return View(list);
         }
-        
+
         public IActionResult Create()
         {
             var department = _departmentService.FindAll();
@@ -45,6 +45,31 @@ namespace SalesWebMVc.Controllers
                 BaseSalary = obj.Seller.BaseSalary
             };
             _sellerService.Insert(seller);
+            return RedirectToAction(nameof(Index));
+
+
+        }
+
+        public IActionResult Delete(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+            var obj = _sellerService.FindById(Id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int Id)
+        {
+            _sellerService.Remove(Id);
             return RedirectToAction(nameof(Index));
 
         }
