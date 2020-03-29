@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMVc.Data;
 using SalesWebMVc.Models;
+using SalesWebMVc.Models.ViewModels;
+using SalesWebMVc.Services;
 
 namespace SalesWebMVc.Controllers
 {
@@ -14,7 +16,7 @@ namespace SalesWebMVc.Controllers
     {
         private readonly SalesWebMVcContext _context;
 
-        public DepartmentsController(SalesWebMVcContext context)
+        public DepartmentsController(SalesWebMVcContext context, DepartmentService departmentService)
         {
             _context = context;
         }
@@ -46,6 +48,7 @@ namespace SalesWebMVc.Controllers
         // GET: Departments/Create
         public IActionResult Create()
         {
+           
             return View();
         }
 

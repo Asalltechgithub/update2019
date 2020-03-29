@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SalesWebMVc.Models;
+using SalesWebMVc.Models.ViewModels;
 using SalesWebMVc.Services;
 
 namespace SalesWebMVc.Controllers
@@ -11,9 +12,12 @@ namespace SalesWebMVc.Controllers
     public class SellersController : Controller
     {
         private readonly SellerService _sellerService;
-        public SellersController(SellerService sellerService)
+        private readonly DepartmentService _departmentService;
+
+        public SellersController(SellerService sellerService,DepartmentService departmentService)
         {
-            _sellerService = sellerService;
+            _sellerService = sellerService; _departmentService = departmentService;
+
         }
         public IActionResult Index()
         {
@@ -23,15 +27,24 @@ namespace SalesWebMVc.Controllers
         
         public IActionResult Create()
         {
-            
-            return View();
+            var department = _departmentService.FindAll();
+            var ViewModel = new SellerFormViewModel { Departments = department };
+
+            return View(ViewModel);
 
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Seller obj)
+        public IActionResult Create(SellerFormViewModel obj)
         {
-            _sellerService.Insert(obj);
+            Seller seller = new Seller
+            {
+                Name = obj.Seller.Name.ToUpper(),
+                BirthDate = obj.Seller.BirthDate,
+                DepartmentId = obj.Seller.DepartmentId,
+                BaseSalary = obj.Seller.BaseSalary
+            };
+            _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));
 
         }
