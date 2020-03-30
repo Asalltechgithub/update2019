@@ -11,9 +11,9 @@ namespace SalesWebMVc.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:c}")]
+        
         public double BaseSalary { get; set; }
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
+        
         public DateTime BirthDate { get; set; }
         public Department Department { get; set; }
         public int DepartmentId { get; set; }
