@@ -29,6 +29,7 @@ namespace SalesWebMVc.Controllers
 
         public IActionResult Create()
         {
+
             var department = _departmentService.FindAll();
             var ViewModel = new SellerFormViewModel { Departments = department };
 
@@ -39,6 +40,10 @@ namespace SalesWebMVc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(SellerFormViewModel obj)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(obj);
+            }
             Seller seller = new Seller
             {
                 Name = obj.Seller.Name.ToUpper(),
@@ -71,6 +76,7 @@ namespace SalesWebMVc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int Id)
         {
+
             _sellerService.Remove(Id);
             return RedirectToAction(nameof(Index));
 
@@ -113,7 +119,12 @@ namespace SalesWebMVc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int Id, Seller seller)
         {
-
+            if (!ModelState.IsValid)
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(viewModel);
+            }
             if (Id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
@@ -128,7 +139,7 @@ namespace SalesWebMVc.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
-           
+
 
 
 
